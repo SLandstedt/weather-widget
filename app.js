@@ -1,54 +1,29 @@
-function updateTempInWidget(p_latitude, p_longitude){
-    var latitude;
-    var longitude;
+init();
 
-    if(latitude && longitude){
-        latitude = p_latitude;
-        longitude = p_longitude;
-    } else {
-        latitude = '55.6050';
-        longitude = '13.0038'; 
-    }
-    var endpoint = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/' + longitude + '/lat/' + latitude + '/data.json';
-    
-    fetch(endpoint)
-    // Response from URL fetch (is a JSON in this)
-    .then(res => res.json())
-    .then(function(json){
-        json.timeSeries[0].parameters.find(function(currentParameter){
-            if(currentParameter.name === 't'){
+function init(){
+    replaceImage();
+    addTextToImage();
+    getGeoLocation();
+}
 
-                $('.ww-temperature .ww-current-temperature').html(currentParameter.values[0]);
-            }
-        });
-    });
-}   
+// Byter ut bilden på hemsidan
+function replaceImage() {
+    let imgElement = $('.main-banner-1 .ratio-wrapper img');
+    imgElement.attr("src","https://slandstedt.github.io/weather-widget/img/sun.png"); 
+}
 
-function addTextToImage(p_temp, geoLocation) {
+// 
+function addTextToImage(p_temp) {
     var bannerElement = $('.main-banner-1 .ratio-wrapper');
     var temperature;
-    var geoLocation = 'Current temp';
 
     if(p_temp){
         temperature = p_temp;
-    } else {temperature = 'Too hot'};
+    } else {temperature = 'xxx'};
     
     // Adds the paragraph to the ened of the ratio-wrapper span tag
     bannerElement.append('<p class="ww-temperature">' + '<span class="ww-current-temperature">' + temperature + '</span>' + '<span class="temperature-scale">°C</span>' + '</p>');
-    bannerElement.append('<p class="ww-geo-location">' + geoLocation + '</p>');
-    
-}
-
-function replaceImage(p_img) {
-    var img;
-    if(p_img){
-        img = p_img;
-    }else {
-        img = 'sun';
-    }
-    let imgElement = $('.main-banner-1 .ratio-wrapper').find('img');
-    // Changes the source of the image
-    imgElement.attr("src","https://slandstedt.github.io/weather-widget/img/" + img +".png"); 
+    bannerElement.append('<p class="ww-geo-location">Current temperatore</p>');
 }
 
 function getGeoLocation() {
@@ -61,7 +36,7 @@ function getGeoLocation() {
       function success(pos) {
         var crd = pos.coords;
        
-        updateTempInWidget(crd.longitude, crd.latitude);
+        updateTempInWidget(crd.latitude, crd.longitude);
         console.log('weather updated with new location');
       }
       
@@ -72,12 +47,28 @@ function getGeoLocation() {
       navigator.geolocation.getCurrentPosition(success, error, options);
 };
 
+function updateTempInWidget(p_latitude, p_longitude){
+    var endpoint;
+
+    if(p_latitude && p_longitude){
+        endpoint = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/' + p_longitude.toFixed(4) + '/lat/' + p_latitude.toFixed(4) + '/data.json';
+    } else {
+        endpoint = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/22.1567/lat/65.5848/data.json';
+    }
+    
+    fetch(endpoint)
+    .then(res => res.json())
+    .then(function(json){
+        json.timeSeries[0].parameters.find(function(currentParameter){
+            if(currentParameter.name === 't'){
+                $('.ww-temperature .ww-current-temperature').html(currentParameter.values[0]);
+            }
+        });
+    });
+
+}   
 
 
-function init(){
-    replaceImage();
-    addTextToImage();
-    updateTempInWidget();
-}
 
-init();
+
+
