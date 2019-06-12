@@ -2,31 +2,22 @@ init();
 
 function init(){
     replaceImage();
-    addTextToImage();
-    getGeoLocation();
+    addTextOverlayToImage();
+    getGeoAndUpdateTemperature();
 }
 
-// Byter ut bilden på hemsidan
 function replaceImage() {
     let imgElement = $('.main-banner-1 .ratio-wrapper img');
     imgElement.attr("src","https://slandstedt.github.io/weather-widget/img/sun.png"); 
 }
 
-// 
-function addTextToImage(p_temp) {
-    var bannerElement = $('.main-banner-1 .ratio-wrapper');
-    var temperature;
-
-    if(p_temp){
-        temperature = p_temp;
-    } else {temperature = 'xxx'};
-    
-    // Adds the paragraph to the ened of the ratio-wrapper span tag
-    bannerElement.append('<p class="ww-temperature">' + '<span class="ww-current-temperature">' + temperature + '</span>' + '<span class="temperature-scale">°C</span>' + '</p>');
+function addTextOverlayToImage() {
+    var bannerElement = $('.main-banner-1 .ratio-wrapper');    
+    bannerElement.append('<p class="ww-temperature">' + '<span class="ww-current-temperature">xxx</span>' + '<span class="temperature-scale">°C</span>' + '</p>');
     bannerElement.append('<p class="ww-geo-location">Current temperatore</p>');
 }
 
-function getGeoLocation() {
+function getGeoAndUpdateTemperature() {
     var options = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -45,7 +36,7 @@ function getGeoLocation() {
       }
       
       navigator.geolocation.getCurrentPosition(success, error, options);
-};
+}
 
 function updateTempInWidget(p_latitude, p_longitude){
     var endpoint;
