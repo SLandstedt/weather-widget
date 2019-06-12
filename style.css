@@ -3,6 +3,33 @@
 }
 */
 
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400&display=swap');
+
+
+
 .main-banner-1 .ratio-wrapper > img {
     color: blue;
+}
+
+.ww-temperature{
+    position: absolute;
+    top: 1px;
+    font-size: 230px;
+    font-family: source sans pro;
+    font-weight: 100;
+    color: white;
+    left: 19px;
+}
+
+.temperature-scale {
+    font-size: 60px;
+}
+
+.ww-geo-location{
+    position: absolute;
+    top: 238px;
+    font-size: 26px;
+    font-family: source sans pro;
+    color: white;
+    left: 26px;
 }
