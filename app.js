@@ -14,7 +14,7 @@ function replaceImage() {
 function addTextOverlayToImage() {
     var bannerElement = $('.main-banner-1 .ratio-wrapper');    
     bannerElement.append('<p class="ww-temperature">' + '<span class="ww-current-temperature">xxx</span>' + '<span class="temperature-scale">°C</span>' + '</p>');
-    bannerElement.append('<p class="ww-geo-location">Current temperatore</p>');
+    bannerElement.append('<p class="ww-geo-location">Current temperature</p>');
 }
 
 function getGeoAndUpdateTemperature() {
